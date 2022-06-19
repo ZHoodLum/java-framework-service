@@ -1,0 +1,68 @@
+{
+  "Head": {
+    "MsgVerNo": "3.0",
+    "SvcCd": "1220002",
+    "ScnCd": "19",
+    "CnsmrSysId": "IFS.OM",
+    "OrgnlCnsmrSysId": "IFS.OM",
+    "CnsmrSrlNo": "20220601IFSOM06082830618945356",
+    "GlblSrlNo": "2022060121101039060828308437",
+    "TxnDt": "20220601",
+    "TxnTm": "180828",
+    "InttCnlCd": "S91",
+    "CnlTxnCd": "122000219",
+    "CnsmrTxnCd": "122000219"
+  },
+  "Body": {
+    "OprtnTp1": "N",
+    "CstNo": "10694871",
+    "CoreSysCstNoTp": "I",
+    "OrgInstCd": "123456789",
+    "CstLvl": "2",
+    "CstSt": "N",
+    "CnlMsgArry": [
+      {}
+    ],
+    "EntpPrsnlCtcPrsnMsgArry": [
+      {
+        "OprtnTp6": "U",
+        "CtcPrsnTp": "C",
+        "Nm": "123",
+        "IdentTp2": "123",
+        "IdentNo2": "123",
+        "TelNo": "123",
+        "MblNo1": "123321123",
+        "Email1": "123",
+        "FaxNo": "123",
+        "Pstcd": "123",
+        "CoTelNo": "123",
+        "IdentBegDt1": "20220525",
+        "IdentExprtnDt1": "20220525"
+      }
+    ],
+    "FcnGrpMsgArry": [
+      {}
+    ],
+    "CstFcnAuthMsgArry": [
+      {}
+    ],
+    "RlMsgArry": [
+      {
+        "PrvgMsgArry": [
+          {}
+        ]
+      }
+    ],
+    "AcctMsgArry": [
+      {
+        "AcctCnlMsgArry": [
+          {}
+        ]
+      }
+    ],
+    "UsrMsgArry": [
+      {}
+    ]
+  }
+}
+}
