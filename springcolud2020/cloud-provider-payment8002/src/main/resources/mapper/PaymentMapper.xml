@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springcloud.dao.PaymentDao">
+    <!--插入数据后，返回这条数据的主键 id，useGeneratedKeys=true ，但是用 Oracle 之后， useGeneratedKeys=false-->
+    <insert id="create" parameterType="com.springcloud.entity.Payment" useGeneratedKeys="false" keyProperty="id">
+        insert into payment (id,serial) values (#{id},#{serial})
+    </insert>
+
+    <!--映射数据库字段信息  防止字段命名不一致 column为数据库的值 property为jiava对象中的值 -->
+    <resultMap id="BaseResultMap" type="com.springcloud.entity.Payment">
+        <id column="id" property="id" jdbcType="NUMERIC"/>
+        <id column="serial" property="serial" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--resultMap映射上面的结果集-->
+    <select id="getPaymentById" parameterType="Integer" resultMap="BaseResultMap">
+        select * from payment where id = #{id}
+    </select>
+
+</mapper>

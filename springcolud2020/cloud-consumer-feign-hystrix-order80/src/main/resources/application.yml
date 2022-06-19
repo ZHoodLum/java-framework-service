@@ -1,0 +1,19 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-consumer-order
+
+# Eureka配置
+eureka:
+  client:
+    #是否将自己注册进入eurekaserver,默认值为true
+    register-with-eureka: true
+    service-url:
+      #集群版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+#服务降级
+feign:
+  hystrix:
+    enabled: true #如果处理自身的容错就开启。开启方式与生产端不一样。

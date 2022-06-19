@@ -1,0 +1,31 @@
+server:
+  port: 7001
+
+eureka:
+  instance:
+    #eureka服务端的实例名字
+    #hostname: localhost
+    #集群部署时hostname要写成下面的格式  eureka服务端的实例名称
+    hostname: eureka7001.com
+  client:
+    healthcheck:
+      enabled: true
+    eureka-server-read-timeout-seconds: 60
+    #表识不向注册中心注册自己
+    register-with-eureka: false
+    #表示自己就是注册中心，职责是维护服务实例，并不需要去检索服务
+    fetch-registry: false
+    service-url:
+      #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址
+      #      defaultZone: http://${eureka.instanqce.hostname}:${server.port}/eureka/
+      #集群部署时hostname要写成下面的格式
+#      defaultZone: http://eureka7002.com:7002/eureka/
+      defaultZone: http://eureka7001.com:7001/eureka/
+      #集群有多台时 相互注册
+      #defaultZone: http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+
+    #是否开启自我保护机制 默认值为true
+      server:
+        enable-self-preservation : false
+    #处理时间
+        eviction-interval-timer-in-ms: 200

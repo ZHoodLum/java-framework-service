@@ -1,0 +1,50 @@
+server:
+  port: 3355
+
+spring:
+  application:
+    name: config-client
+  cloud:
+    config:
+      label: master
+      name: config
+      profile: dev
+      uri: http://localhost:3344
+  #rabbitmq相关配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# Eureka配置
+eureka:
+  client:
+    #是否将自己注册进入eurekaserver,默认值为true
+    register-with-eureka: true
+    #是否从EurekaServer抓取已有的注册信息，默认值为true;
+    #单节点的情况下无所谓，集群必须设置为true，才能配置ribbon实现负载均衡
+    fetchRegistry: true
+    service-url:
+      #单机版
+      #      defaultZone: http://localhost:7001/eureka
+      #集群版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+
+  # 主机名称：服务名称修改 防止eureka界面显示主机名称
+  instance:
+    #eureka界面显示服务名
+    hostname: config-3344.com
+    #是否显示访问的IP地址
+    prefer-ip-address: true
+    #eureka客户端像服务端发送心跳的时间间隔 单位是秒（默认值为30秒）
+    lease-renewal-interval-in-seconds: 1
+    #eureka服务端收到最后一次心跳等待时间上限，单位是秒（默认值为90秒） 超时将剔除服务
+    lease-expiration-duration-in-seconds: 2
+
+#暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

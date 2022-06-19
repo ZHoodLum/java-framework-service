@@ -1,0 +1,5 @@
+spring:
+  profiles:
+#    配置什么 就加载什么配置内容
+#    active: dev
+    active: test
