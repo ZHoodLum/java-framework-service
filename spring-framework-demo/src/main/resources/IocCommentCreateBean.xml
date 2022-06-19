@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--通过注解方式分别创建Dao、Service、Controller（控制器 控制网站跳转逻辑-Servlet）-->
+    <!--通过给Bean加入某些注解，可以快速的将Bean加入容器中
+        @Controller 控制器，控制层的组件使用的注解
+        @Service 业务逻辑，业务逻辑层使用该注解
+        @Repository 数据库层，持久化层/dao层的组件使用该注解
+        @Componment 给不属于以上几层的组件，添加该注解
+        在某个类添加以上任意注解，都可以快速的将该类加入Spring容器中，这些组件只是Spring的一个概念
+
+        1、组件添加对应注解
+        2、Spring自动扫描：依赖context名称空间
+        3、如果使用注解，必须导入AOP包
+
+        注：
+        1、使用注解和配置加，原理都是一样的
+        2、组件的作用域，都是单例模式
+    -->
+
+
+    <bean id="agentInfo" class="com.example.entity.AgentInfo">
+        <property name="agentIP" value="10.240.1781.123"/>
+        <property name="agentPort" value="9200"/>
+    </bean>
+
+    <bean id="gatewayInfo" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="1231333333333"/>
+        <property name="gatewayName" value="SOA架构网关"/>
+        <!--这种赋值方式为手动赋值方式   也就是手动装填-->
+        <property name="agentInfo" ref="agentInfo"/>
+    </bean>
+
+    <!--=========================context:component-scan 自动组件扫描=========================-->
+    <!--base-package 指定扫描的基础包，把基础包及基础包以下的注解类 自动扫描加入IOC容器中-->
+<!--    <context:component-scan base-package="com.example"></context:component-scan>-->
+
+
+    <!--=========================指定扫描包时包含的类=========================-->
+    <!--use-default-filters 禁用默认扫描全部包的规则-->
+<!--    <context:component-scan base-package="com.example" use-default-filters="false">-->
+<!--        <context:include-filter type="assignable" expression="org.springframework.stereotype.Controller"/>-->
+<!--        <context:include-filter type="assignable" expression="org.springframework.stereotype.Repository"/>-->
+<!--    </context:component-scan>-->
+
+    <!--=========================指定扫描包时不包含的类=========================
+        type="annotation" :  标注注解进行排除，标注注解的不引用
+        type="assignable" : 指定排除某个具体类
+        type="aspectj" : aspecti表达式
+        type="custom" : 自定义一个TypeFilter 自己写代码使用
+        type="regex" :  正则表达式
+
+        expression含义： 全类名
+    -->
+<!--    <context:component-scan base-package="com.example">-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
+
+<!--    <context:component-scan base-package="com.example">-->
+<!--        <context:exclude-filter type="assignable" expression="com.example.controller.GatewayInfoController"/>-->
+<!--    </context:component-scan>-->
+
+
+
+    <!--=========================使用autowired注解实现根据类型实现自动装填=========================-->
+    <context:component-scan base-package="com.example"></context:component-scan>
+</beans>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--注册一个对象，Spring会自动创建这个对象-->
+    <!--一个Bean注册一个组件（类、对象的概念）-->
+    <!--====================================通过Bean的setXXX()方法====================================-->
+    <!--
+      class: 组件的全类名，具体到路径
+      id: 组件的标识，必须唯一
+      property: 标签代表对象的属性值
+        -name: 对象的属性名
+        -value: 对象的属性值
+    -->
+    <bean id="agentInfo" class="com.example.entity.AgentInfo">
+        <property name="agentIP" value="10.240.199.1"/>
+        <property name="agentPort" value="9200"/>
+        <property name="agentName" value="elasticsearch"/>
+        <property name="isNormal" value="true"/>
+    </bean>
+
+    <bean id="agentInfo01" class="com.example.entity.AgentInfo">
+        <property name="agentIP" value="10.240.199.2"/>
+        <property name="agentPort" value="9201"/>
+    </bean>
+
+    <!--====================================使用有参构造器创建Bean并赋值====================================-->
+    <!--通过bean的构造器赋值-->
+    <bean id="agentInfoByType" class="com.example.entity.AgentInfo">
+        <constructor-arg name="agentIP" value="10.241.178.127"/>
+        <constructor-arg name="agentPort" value="9200"/>
+        <constructor-arg name="agentName" value="elasticsearch"/>
+        <constructor-arg name="isNormal" value="true"/>
+    </bean>
+
+    <!--通过bean的构造器赋值-->
+    <!--使用有参构造器时 可以省略name属性，但是必须严格按照构造器参数的位置顺序去书写-->
+    <bean id="agentInfoByType01" class="com.example.entity.AgentInfo">
+        <constructor-arg value="10.241.178.127"/>
+        <constructor-arg value="9200"/>
+    </bean>
+
+    <!--通过索引值指定参数位置-->
+    <!--使用有参构造器时 可以省略name属性，但是必须严格按照构造器参数的位置顺序去书写  或者使用index属性 代表索引位置，从0开始-->
+    <bean id="agentInfoByType02" class="com.example.entity.AgentInfo">
+        <constructor-arg value="10.241.178.127" index ="0"/>
+        <constructor-arg value="9200" index ="1"/>
+    </bean>
+
+    <!--通过类型不同区分重载的构造器-->
+    <!--如果对象中出现多个相同参数数量，参数类型不同的构造器，为了更精准的赋值，需要使用type属性，防止赋值错位-->
+    <bean id="agentInfoByType03" class="com.example.entity.AgentInfo">
+        <constructor-arg value="elasticsearch" index ="0" type="java.lang.String"/>
+        <constructor-arg value="777" index ="1" type="java.lang.Integer"/>
+    </bean>
+
+    <!--====================================p名称空间====================================-->
+    <!--为了简化XML文件的配置，越来越多的XML文件采用属性而非子元素配置信息。
+    Spring从2.5版本开始引入了一个新的p命名空间，可以通过<bean>元素属性的方式配置Bean的属性。
+    使用p命名空间后，基于XML的配置方式将进一步简化。-->
+    <bean id="agentInfoP"  class="com.example.entity.AgentInfo"
+        p:agentIP="10.240.178.110"
+        p:agentPort="9200"
+        p:agentName="elasticsearch"
+        p:isNormal="true"
+        p:isNum="18"
+    />
+
+</beans>

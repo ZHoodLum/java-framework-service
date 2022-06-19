@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!--工厂模式 通过工厂帮我们创建Bean-->
+    <bean id="gatewayInfo1" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="1231333333333"/>
+        <property name="gatewayName" value="SOA架构网关"/>
+    </bean>
+
+    <!--静态工厂的使用 添加参数factory-method="getGateWayInfo" ； 指定那个方法是工厂方法-->
+    <bean id="gatewayInfo2" class="com.example.factory.StaticFactory" factory-method="getGateWayInfo">
+        <!--为方法指定参数-->
+        <constructor-arg value="SOA架构应用-StaticFactory"/>
+    </bean>
+
+    <!--实例工厂      factory-bean="gatewayInfo3" factory-method="getGateWayInfo"-->
+    <!--1、首先创建工厂-->
+    <bean id="gatewayInfo3" class="com.example.factory.InstanceFactory"></bean>
+    <!--2、再创建对象-->
+    <!--也就是说通过该Bean的ID去创建Bean对象！！！！！！！-->
+    <bean id="gatewayInfo4" class="com.example.entity.GatewayInfo" factory-bean="gatewayInfo3" factory-method="getGateWayInfo">
+        <constructor-arg value="SOA架构应用-InstanceFactory"/>
+    </bean>
+
+    <!-- FactoryBean  IOC容器启动时不会创建这个实例Bean-->
+    <bean id="SpringInterfaceFactoryBean" class="com.example.factory.SpringInterfaceFactoryBean"></bean>
+</beans>

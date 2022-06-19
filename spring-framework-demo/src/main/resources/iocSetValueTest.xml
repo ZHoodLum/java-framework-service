@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!--正确的为各种属性赋值
+        使用null值、
+        引用类型赋值（引用其他Bean、引用内部Bean）
+        集合类型赋值（List、Map、Properties）
+        Util名称空间创建集合类型的Bean
+        级联属性赋值
+        -->
+
+    <!--赋值属性为空值 null-->
+    <bean id="gatewayInfo" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="330af121012k105j125j"/>
+        <property name="gatewayName">
+            <null/>
+        </property>
+    </bean>
+
+    <!--声明外部Bean-->
+    <bean id="gatewayInfo1" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="330af121012k105j125j"/>
+        <!--ref 代表引用外部Bean实体类-->
+        <property name="agentInfo" ref="agentInfo"></property>
+    </bean>
+
+    <bean id="agentInfo" class="com.example.entity.AgentInfo">
+        <constructor-arg name="agentIP" value="10.241.178.111"/>
+        <constructor-arg name="agentPort" value="9300"/>
+        <constructor-arg name="agentName" value="elasticsearch"/>
+        <constructor-arg name="isNormal" value="true"/>
+    </bean>
+
+    <!--引入内部bean-->
+    <bean id="gatewayInfo2" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="330af121012k105j125j"/>
+        <!--ref 代表引用外部Bean实体类-->
+        <property name="agentInfo">
+            <bean class="com.example.entity.AgentInfo">
+                <property name="agentIP" value="10.240.19.222"/>
+                <property name="agentPort" value="9201"/>
+                <property name="agentName" value="elasticsearch2"/>
+                <property name="isNormal" value="false"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--集合类型List-->
+    <bean id="gatewayInfo3" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="330af121012k105j125j"/>
+        <!--ref 代表引用外部Bean实体类-->
+        <property name="agentInfoList">
+            <!--相当于new一个list集合-->
+            <list>
+                <bean id="agentInfo2" class="com.example.entity.AgentInfo">
+                    <property name="agentIP" value="10.240.19.333"/>
+                    <property name="agentPort" value="9203"/>
+                    <property name="agentName" value="elasticsearch3"/>
+                    <property name="isNormal" value="false"/>
+                </bean>
+
+                <bean id="agentInfo4" class="com.example.entity.AgentInfo">
+                    <property name="agentIP" value="10.240.19.444"/>
+                    <property name="agentPort" value="9204"/>
+                    <property name="agentName" value="elasticsearch4"/>
+                    <property name="isNormal" value="false"/>
+                </bean>
+                <!--ref 引入外部Bean-->
+                <ref bean="agentInfo3"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="agentInfo3" class="com.example.entity.AgentInfo">
+        <property name="agentIP" value="10.240.19.333"/>
+        <property name="agentPort" value="9203"/>
+        <property name="agentName" value="elasticsearch3"/>
+        <property name="isNormal" value="false"/>
+    </bean>
+
+
+    <!--集合类型 Map-->
+    <bean id="gatewayInfo4" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="330af121012k105j12511231231"/>
+        <property name="agentInfoMap">
+            <!--相当于new一个LinkedHashMap()集合-->
+            <map>
+                <!--一个entry就代表一个键值对-->
+                <!--                <entry key="key01" value="111"></entry>-->
+                <!--                <entry key="key02" value="222"></entry>-->
+                <!--                <entry key="key03" value-ref="agentInfo3"></entry>-->
+                <entry key="key04">
+                    <bean id="agentInfo5" class="com.example.entity.AgentInfo">
+                        <property name="agentIP" value="10.240.19.555"/>
+                        <property name="agentPort" value="9205"/>
+                        <property name="agentName" value="elasticsearch5"/>
+                        <property name="isNormal" value="true"/>
+                    </bean>
+                </entry>
+                <!--                <entry key="key05">-->
+                <!--                    <map>-->
+                <!--                        <entry key="key051" value="4444"></entry>-->
+                <!--                    </map>-->
+                <!--                </entry>-->
+            </map>
+        </property>
+    </bean>
+
+    <!--properties对象-->
+    <bean id="gatewayInfo5" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="330af121012k105j12511231231"/>
+        <property name="properties">
+            <!--相当于new一个properties 所有的k=v都是string类型-->
+            <props>
+                <prop key="username">admin</prop>
+                <prop key="password">123456</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--利用util标签  应用外部Bean-->
+    <bean id="gatewayInfo6" class="com.example.entity.GatewayInfo">
+        <property name="agentInfoMap" ref="utilMap"/>
+    </bean>
+    <util:map id="utilMap">
+        <entry key="key04">
+            <bean id="agentInfo5" class="com.example.entity.AgentInfo">
+                <property name="agentIP" value="10.240.19.555"/>
+                <property name="agentPort" value="9205"/>
+                <property name="agentName" value="elasticsearch5"/>
+                <property name="isNormal" value="true"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!--级联属性： 属性的属性  也就是说gatewayInfo中的agentInfo属性-->
+    <bean id="gatewayInfo7" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="330af121012k105j125j"/>
+        <!--ref 代表引用外部Bean实体类-->
+        <property name="agentInfo" ref="agentInfo"></property>
+        <!--级联属性可以修改属性的属性 由于ref是引用关系，所以如果引用后更改值了，原对象也会被更改-->
+        <property name="agentInfo.agentPort" value="1111111"/>
+    </bean>
+
+    <!--======================================测试练习创建Bean==========================================-->
+    <!--parent 指定当前的Bean的配置信继承哪个 继承关系 当前Bean属性优先级高于父类的属性值-->
+    <bean id="gatewayInfo8" parent="gatewayInfo7">
+        <property name="gatewayId" value="22222222222222222222"/>
+    </bean>
+
+    <!--使用abstract创建Bean-->
+    <bean id="gatewayInfo9" class="com.example.entity.GatewayInfo" abstract="true">
+        <property name="gatewayId" value="330af121012k105j125j"/>
+        <!--ref 代表引用外部Bean实体类-->
+        <property name="agentInfo" ref="agentInfo"></property>
+        <!--级联属性可以修改属性的属性 由于ref是引用关系，所以如果引用后更改值了，原对象也会被更改-->
+        <property name="agentInfo.agentPort" value="1111111"/>
+    </bean>
+    <bean id="gatewayInfo10" parent="gatewayInfo9">
+        <property name="gatewayId" value="22222222222222222222"/>
+    </bean>
+
+    <!--Bean创建顺序-->
+    <bean id="gatewayInfo11" class="com.example.entity.GatewayInfo" depends-on="agentInfo">
+        <property name="gatewayId" value="330af121012k105222222"/>
+        <!--ref 代表引用外部Bean实体类-->
+        <property name="agentInfo" ref="agentInfo"></property>
+        <!--级联属性可以修改属性的属性 由于ref是引用关系，所以如果引用后更改值了，原对象也会被更改-->
+        <property name="agentInfo.agentPort" value="1111111"/>
+    </bean>
+
+    <!--测试Bean的作用域 分别创建单实例和多实例的Bean  ,
+    Bean的作用域指的是：Bean是否为单例  默认是：单例
+    使用属性scope=""
+    prototype: 多实例
+                1、容器启动默认不会创建多实例的Bean
+                2、获取Bean时，创建Bean
+                3、每次获取都会创建一个新的实例
+    singleton: 单实例 默认的：
+                1、在容器启动之前就已经创建好对象并保存在容器中
+                2、任何时候获取对象都是之前创建好的对象
+    request: 在WEB环境下，同一次请求创建一个Bean实例（没用）
+    session: 在WEB环境下，同一次会话创建一个Bean实例（没用）
+    -->
+    <bean id="gatewayInfo12" class="com.example.entity.GatewayInfo" scope="prototype">
+        <property name="gatewayId" value="330af121012k105222222"/>
+        <!--ref 代表引用外部Bean实体类-->
+        <property name="agentInfo" ref="agentInfo"></property>
+        <!--级联属性可以修改属性的属性 由于ref是引用关系，所以如果引用后更改值了，原对象也会被更改-->
+        <property name="agentInfo.agentPort" value="1111111"/>
+    </bean>
+
+
+</beans>

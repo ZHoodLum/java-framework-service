@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="agentInfo" class="com.example.entity.AgentInfo">
+        <property name="agentIP" value="10.240.1781.123"/>
+        <property name="agentPort" value="9200"/>
+    </bean>
+
+    <!--基座XML的自动装配-->
+    <!--手动赋值方式  -->
+    <bean id="gatewayInfo" class="com.example.entity.GatewayInfo">
+        <property name="gatewayId" value="1231333333333"/>
+        <property name="gatewayName" value="SOA架构网关"/>
+        <!--这种赋值方式为手动赋值方式   也就是手动装填-->
+        <property name="agentInfo" ref="agentInfo"/>
+    </bean>
+
+    <!--自动赋值，仅限对自定义类型的属性有效，剔除JAVA的八大类型,String int 等等类型-->
+    <!--
+        autowire="default/no" 代表不自动的为属性赋值
+        autowire="byName" 代表自动赋值，根据名字赋值；以属性名作为ID去容器中找组件并赋值，如果容器中没有这个名字的组件，就装配NULL
+        autowire="byType" 代表自动赋值，根据类型赋值；以属性的类型作为查找依旧去容器中查找组件并赋值；
+                          1、如果容器中有多个容器的组件，就会报错“org.springframework.beans.factory.NoUniqueBeanDefinitionException”
+                          2、如果容器中没有这个类型的组件，就会装配NULL
+        autowire="constructor" 代表自动赋值，根据构造器赋值
+                          1、先按照有参构造器类型进行装配，如果容器中没有这个组件，则装配NULL
+                          2、如果按照类型找到多个（容器中有多个组件）,参数的名作为ID，继续进行自动装填，为Bean赋值
+    -->
+    <bean id="gatewayInfo2" class="com.example.entity.GatewayInfo" autowire="byName"></bean>
+    <bean id="gatewayInfo3" class="com.example.entity.GatewayInfo" autowire="byType"></bean>
+    <bean id="gatewayInfo4" class="com.example.entity.GatewayInfo" autowire="constructor"></bean>
+</beans>

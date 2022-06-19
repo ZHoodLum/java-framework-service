@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--后置处理器-->
+    <bean id="IocBeanPostProcessor" class="com.example.processor.IocBeanPostProcessor">
+    </bean>
+
+    <bean id="gatewayInfo" class="com.example.entity.GatewayInfo"
+          init-method="initGatewayInfoBean" destroy-method="destoryGatewayInfoBean">
+        <property name="gatewayId" value="1231333333333"/>
+        <property name="gatewayName" value="SOA架构网关"/>
+    </bean>
+</beans>

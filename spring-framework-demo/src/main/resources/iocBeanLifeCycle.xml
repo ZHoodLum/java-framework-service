@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!--Bean的生命周期：Bean的创建到销毁-->
+    <!--
+        IOc容器注册Bean：
+        1、单例Bean：容器启动时就创建好，容器关闭后就会销毁创建的Bean
+        2、多实例Bean：在获取Bean的时候创建好，容器关闭不会调用销毁方法，因为是获取时创建的Bean
+        所以说在Bean的创建或销毁是调用指定的创建或销毁方法; 可以自定义创建方法和销毁方法
+    -->
+    <bean id="gatewayInfo1" class="com.example.entity.GatewayInfo"
+          init-method="initGatewayInfoBean" destroy-method="destoryGatewayInfoBean">
+        <property name="gatewayId" value="1231333333333"/>
+        <property name="gatewayName" value="SOA架构网关"/>
+    </bean>
+
+    <bean id="gatewayInfo2" class="com.example.entity.GatewayInfo"
+          init-method="initGatewayInfoBean" destroy-method="destoryGatewayInfoBean" scope="prototype">
+        <property name="gatewayId" value="1231333333333"/>
+        <property name="gatewayName" value="SOA架构网关"/>
+    </bean>
+</beans>
