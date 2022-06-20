@@ -34,3 +34,9 @@ eureka:
 #    lease-renewal-interval-in-seconds: 1
     #eureka服务端收到最后一次心跳等待时间上限，单位是秒（默认值为90秒） 超时将剔除服务
 #    lease-expiration-duration-in-seconds: 2
+    metadataMap:
+      "prometheus.scrape": "true"
+      #服务本身路径  用于prometheus访问指标的路径
+      "prometheus.path": "/actuator/prometheus"
+      #服务本身端口  用于prometheus访问指标的端口
+      "prometheus.port": "8080"

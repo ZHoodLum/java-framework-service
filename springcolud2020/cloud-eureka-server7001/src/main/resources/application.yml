@@ -7,6 +7,12 @@ eureka:
     #hostname: localhost
     #集群部署时hostname要写成下面的格式  eureka服务端的实例名称
     hostname: eureka7001.com
+    metadataMap:
+      "prometheus.scrape": "true"
+      #服务本身路径  用于prometheus访问指标的路径
+      "prometheus.path": "/actuator/prometheus"
+      #服务本身端口  用于prometheus访问指标的端口
+      "prometheus.port": "8080"
   client:
     healthcheck:
       enabled: true
